@@ -54,6 +54,10 @@ h1 {
   line-height: 1;
 }
 
+h3 {
+  margin: 0;
+}
+
 p {
   text-align: center;
   font-size: 1.5rem;
@@ -76,13 +80,14 @@ a {
   width: 200px;
   height: 200px;
   text-align: center;
-  background-color: #bdbdbd;
+  background-color: #f1c40f;
   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .item img {
   object-fit: cover;
-  height: 165px;
+  height: 148px;
+  width: 200px;
 }
 
 /* Grow Shadow */
