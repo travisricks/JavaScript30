@@ -4,13 +4,13 @@
   top: 10px;
   background-color: #f1c40f;
   padding: 5px;
+  font-size: 14px;
 }
 
 .homeBtn a {
   text-transform: uppercase;
   font-weight: bold;
   color: #c2484c;
-  font-size: 1.4em;
   text-decoration: none;
 }
 
