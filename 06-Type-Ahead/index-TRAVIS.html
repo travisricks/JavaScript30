@@ -46,8 +46,8 @@
 
       const cities = [];
       fetch(endpoint)
-        .then(blob => blob.json())
-        .then(data => cities.push(...data));
+        .then(blob => blob.json()) // convert blob to json
+        .then(data => cities.push(...data)); // push data to array using spread
 
       function findMatches(wordToMatch, cities) {
         return cities.filter(place => {
@@ -77,7 +77,9 @@
             return `
             <li>
               <span class="name">${cityName}, ${stateName}</span>
-              <span class="population">${numberWithCommas(place.population)}</span>
+              <span class="population">${numberWithCommas(
+                place.population
+              )}</span>
             </li>
           `;
           })
