@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>HTML5 Canvas | Travis Ricks</title>
-  <link rel="stylesheet" href="../home-btn.css" />
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML5 Canvas | Travis Ricks</title>
+    <link rel="stylesheet" href="../home-btn.css" />
     <!-- Favicons -->
     <link
       rel="icon"
@@ -23,19 +23,88 @@
       sizes="16x16"
       href="../img/favicons/favicon-16x16.png"
     />
-</head>
-<body>
-  <div class="homeBtn hvr-grow"><a href="../">Home</a></div>
+  </head>
+  <body>
+    <div class="homeBtn hvr-grow"><a href="../">Home</a></div>
 
-<canvas id="draw" width="800" height="800"></canvas>
-<script>
-</script>
+    <canvas id="draw" width="800" height="800"></canvas>
+    <div id="instructions">Click and drag to draw</div>
+    <script>
+      const canvas = document.querySelector("#draw");
+      // context - the part you actually draw on
+      // this below comment helps VSC do intellisense for canvas
+      /** @type {CanvasRenderingContext2D} */
+      const ctx = canvas.getContext("2d");
 
-<style>
-  html, body {
-    margin: 0;
-  }
-</style>
+      // make the canvas the size of the window
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
 
-</body>
+      ctx.strokeStyle = "#BADA55";
+      ctx.lineJoin = "round"; // when lines meet
+      ctx.lineCap = "round"; // end of lines
+      ctx.lineWidth = 15;
+      // ctx.globalCompositeOperation = "multiply";
+
+      let isDrawing = false;
+      let lastX = 0;
+      let lastY = 0;
+      let hue = 0;
+      let lineWidthDirection = true;
+
+      function draw(e) {
+        if (!isDrawing) return; // stops the function from running when the mouse isn't clicked
+        // console.log(e);
+        ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+        // start from
+        ctx.beginPath();
+        // go to
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        // lastX = e.offsetX;
+        // lastY = e.offsetY;
+        // array destructuring above two lines into one line vvvvv
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+        hue++;
+        if (hue >= 360) {
+          hue = 0;
+        }
+
+        if (ctx.lineWidth >= 50 || ctx.lineWidth <= 10) {
+          lineWidthDirection = !lineWidthDirection;
+        }
+        lineWidthDirection ? ctx.lineWidth++ : ctx.lineWidth--;
+      }
+
+      const instructions = document.getElementById('instructions')
+
+      canvas.addEventListener("mousedown", e => {
+        instructions.remove();
+        isDrawing = true;
+        [lastX, lastY] = [e.offsetX, e.offsetY]; // start where mouse is
+      });
+      canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("mouseup", () => (isDrawing = false));
+      canvas.addEventListener("mouseout", () => (isDrawing = false));
+    </script>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+      #draw:hover {
+        cursor: pointer;
+      }
+      #instructions {
+        position: fixed;
+        left: 20%;
+        top: 25%;
+        margin: 0 auto;
+        text-transform: uppercase;
+        font-size: 2em;;
+      }
+    </style>
+  </body>
 </html>
