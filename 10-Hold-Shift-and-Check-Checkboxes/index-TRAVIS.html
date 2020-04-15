@@ -28,7 +28,7 @@
     <style>
       html {
         font-family: sans-serif;
-        background: #ffc600;
+        background: #bada55;
       }
 
       .inbox {
@@ -116,6 +116,35 @@
 
     <div class="homeBtn hvr-grow"><a href="../">Home</a></div>
 
-    <script></script>
+    <script>
+      const checkboxes = document.querySelectorAll(
+        '.inbox input[type="checkbox"]'
+      );
+
+      let lastChecked;
+
+      function handleCheck(e) {
+        // check if shift key was pressed AND that it was being selected/checked
+        let inBetween = false;
+        if (e.shiftKey && this.checked) {
+          // loop through all checkboxes
+          checkboxes.forEach((checkbox) => {
+            if (checkbox === this || checkbox === lastChecked) {
+              inBetween = !inBetween;
+            }
+
+            if (inBetween) {
+              checkbox.checked = true;
+            }
+          });
+        }
+
+        lastChecked = this;
+      }
+
+      checkboxes.forEach((checkbox) =>
+        checkbox.addEventListener("click", handleCheck)
+      );
+    </script>
   </body>
 </html>
