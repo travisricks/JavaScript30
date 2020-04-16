@@ -82,6 +82,10 @@ body {
   height: 15px;
 }
 
+.player:hover {
+  cursor: pointer;
+}
+
 .player__controls > * {
   flex: 1;
 }
