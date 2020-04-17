@@ -28,10 +28,59 @@
       sizes="16x16"
       href="../img/favicons/favicon-16x16.png"
     />
+    <style>
+      :root {
+        --magic-number: 0.09719; /* tan(11°)/2 */
+        --content-width: 100vw;
+        --skew-padding: calc(var(--content-width) * var(--magic-number));
+      }
+
+      .diagonal-box {
+        background-image: linear-gradient(45deg, #6303b1, #ff0099);
+        height: 50vh;
+        transform: skewY(-11deg);
+        margin-top: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .content {
+        max-width: 50em;
+        margin: 0 auto;
+        transform: skewY(11deg);
+        font-family: Arial, Helvetica, sans-serif;
+        color: white;
+        font-size: 2rem;
+      }
+      span {
+        text-decoration: underline;
+        text-decoration-style: dashed;
+        letter-spacing: 0.5rem;
+      }
+    </style>
   </head>
   <body>
     <div class="homeBtn hvr-grow"><a href="../">Home</a></div>
 
-    <script></script>
+    <div class="diagonal-box">
+      <div class="content">Type the secret code: <span>travis</span></div>
+    </div>
+
+    <script>
+      const pressed = [];
+      const secretCode = "travis";
+      window.addEventListener("keyup", (e) => {
+        console.log(e.key);
+        pressed.push(e.key);
+        pressed.splice(
+          -secretCode.length - 1,
+          pressed.length - secretCode.length
+        );
+        if (pressed.join("").includes(secretCode)) {
+          console.log("🏆 ding ding");
+          cornify_add();
+        }
+      });
+    </script>
   </body>
 </html>
