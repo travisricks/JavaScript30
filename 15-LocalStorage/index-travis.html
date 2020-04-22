@@ -72,25 +72,95 @@
         <input type="text" name="item" placeholder="Item Name" required />
         <input type="submit" value="+ Add Item" />
       </form>
+      <button type="button" name="selectAll">Select All</button>
+      <button type="button" name="clearAll">Deselect All</button>
+      <button type="button" name="delete">Delete All</button>
     </div>
 
     <script>
       const addItems = document.querySelector(".add-items");
       const itemsList = document.querySelector(".plates");
-      const items = [];
+      const items = JSON.parse(localStorage.getItem("tapas")) || [];
+      const btnSelectAll = document.querySelector("[name=selectAll]");
+      const btnDeselectAll = document.querySelector("[name=clearAll]");
+      const btnDeleteAll = document.querySelector("[name=delete]");
 
       function handleSubmit(e) {
         e.preventDefault();
         const text = this.querySelector("[name=item]").value;
-        const item = {
+        const itemToAdd = {
           text,
           done: false,
         };
-        items.push(item);
+        items.push(itemToAdd);
+        populateList(items, itemsList);
+        localStorage.setItem("tapas", JSON.stringify(items));
         this.reset();
       }
 
+      function populateList(items = [], tapasList) {
+        tapasList.innerHTML = items
+          .map((item, i) => {
+            return `
+            <li>
+              <input type="checkbox" data-index=${i} id="item${i}" ${
+              item.done ? "checked" : ""
+            } />
+              <label for="item${i}">${item.text}</label>
+            </li>
+          `;
+          })
+          .join("");
+      }
+
+      function updateStoragePopulateList() {
+        // update localStorage and re-populate list
+        localStorage.setItem("tapas", JSON.stringify(items));
+        populateList(items, itemsList);
+      }
+
+      function toggleDone(e) {
+        if (!e.target.matches("input")) return; // skip unless it's an input
+        const index = e.target.dataset.index;
+        items[index].done = !items[index].done; // toggles done property
+
+        updateStoragePopulateList();
+      }
+
+      function handleSelectAll() {
+        if (items.length === 0) return;
+        items.forEach((item) => {
+          item.done = true;
+        });
+
+        updateStoragePopulateList();
+      }
+
+      function handleDeselectAll() {
+        if (items.length === 0) return;
+        items.forEach((item) => {
+          item.done = false;
+        });
+
+        updateStoragePopulateList();
+      }
+
+      function handleDeleteAll() {
+        if (items.length === 0) return;
+        items.length = 0;
+
+        updateStoragePopulateList();
+      }
+
       addItems.addEventListener("submit", handleSubmit);
+      itemsList.addEventListener("click", toggleDone);
+
+      btnSelectAll.addEventListener("click", handleSelectAll);
+      btnDeselectAll.addEventListener("click", handleDeselectAll);
+      btnDeleteAll.addEventListener("click", handleDeleteAll);
+
+      // populate list with localStorage on page load
+      populateList(items, itemsList);
     </script>
   </body>
 </html>
