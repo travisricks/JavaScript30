@@ -26,10 +26,7 @@
     />
   </head>
   <body>
-    <div
-      class="homeBtn hvr-grow"
-      style="right: 50%; left: unset; background-color: #bada55;"
-    >
+    <div class="homeBtn hvr-grow">
       <a href="../">Home</a>
     </div>
     <nav>
@@ -43,6 +40,7 @@
     </nav>
 
     <div class="wrapper">
+      <h3>Hover over the links 😃</h3>
       <p>
         Lorem ipsum dolor sit amet, <a href="">consectetur</a> adipisicing elit.
         Est <a href="">explicabo</a> unde natus necessitatibus esse obcaecati
@@ -73,6 +71,26 @@
 
     <script>
       // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+      const triggers = document.querySelectorAll("a");
+      const highlight = document.createElement("span");
+      highlight.classList.add("highlight");
+      document.body.append(highlight);
+
+      function highlightLink() {
+        const linkCoords = this.getBoundingClientRect();
+        const coords = {
+          width: linkCoords.width,
+          height: linkCoords.height,
+          // these are needed to account for the user scrolling after page load
+          top: linkCoords.top + window.scrollY,
+          left: linkCoords.left + window.scrollX,
+        };
+        highlight.style.width = `${coords.width}px`;
+        highlight.style.height = `${coords.height}px`;
+        highlight.style.transform = `translate(${coords.left}px, ${coords.top}px)`;
+      }
+
+      triggers.forEach((a) => a.addEventListener("mouseenter", highlightLink));
     </script>
   </body>
 </html>
