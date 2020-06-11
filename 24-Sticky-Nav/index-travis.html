@@ -293,6 +293,24 @@
       </p>
     </div>
 
-    <script></script>
+    <script>
+      const nav = document.querySelector("#main");
+      const topOfNav = nav.offsetTop;
+
+      function fixNav() {
+        if (window.scrollY >= topOfNav) {
+          // add the class to the body so you can easily target any other elements you need to
+          document.body.classList.add("fixed-nav");
+          // this padding is needed so the body doesn't 'jump' when the nav gets removed from the doucment flow (by becoming fixed)
+          document.body.style.paddingTop = nav.offsetHeight + "px";
+        } else {
+          document.body.classList.remove("fixed-nav");
+          document.body.style.paddingTop = 0;
+        }
+        console.log(topOfNav);
+      }
+
+      window.addEventListener("scroll", fixNav);
+    </script>
   </body>
 </html>
