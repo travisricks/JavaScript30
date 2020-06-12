@@ -25,9 +25,9 @@
     />
   </head>
   <body class="bod">
-    <!-- <div class="homeBtn hvr-grow">
+    <section class="homeBtn hvr-grow">
       <a href="../">Home</a>
-    </div> -->
+    </section>
 
     <div class="one">
       <div class="two">
@@ -64,7 +64,27 @@
       }
     </style>
 
-    <button></button>
-    <script></script>
+    <button>only fires once</button>
+    <script>
+      const divs = document.querySelectorAll("div");
+      const button = document.querySelector("button");
+
+      function logText(e) {
+        e.stopPropagation();
+        console.log(this.classList.value);
+      }
+
+      divs.forEach((div) =>
+        div.addEventListener("click", logText, { capture: false })
+      );
+
+      button.addEventListener(
+        "click",
+        () => {
+          alert("I bet you can't make me appear again!");
+        },
+        { once: true }
+      );
+    </script>
   </body>
 </html>
