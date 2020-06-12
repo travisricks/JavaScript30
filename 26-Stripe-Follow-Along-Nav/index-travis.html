@@ -28,7 +28,7 @@
     <div class="homeBtn hvr-grow">
       <a href="../">Home</a>
     </div>
-    <h2>Cool</h2>
+    <!-- <h2>Cool</h2> -->
     <nav class="top">
       <div class="dropdownBackground">
         <span class="arrow"></span>
@@ -39,11 +39,10 @@
           <a href="#">About Me</a>
           <div class="dropdown dropdown1">
             <div class="bio">
-              <img src="https://logo.clearbit.com/wesbos.com" />
+              <img src="./travis-profile-2019-Nov-square-sm.jpg" />
               <p>
-                Wes Bos sure does love web development. He teaches things like
-                JavaScript, CSS and BBQ. Wait. BBQ isn't part of web
-                development. It should be though!
+                Wes Bos sure does love web development. And Travis Ricks
+                (&larr;) loves his tutorials!
               </p>
             </div>
           </div>
@@ -129,26 +128,17 @@
       body {
         margin: 0;
         min-height: 100vh;
+        background: #00b09b; /* fallback for old browsers */
+        background: -webkit-linear-gradient(
+          to bottom,
+          #96c93d,
+          #00b09b
+        ); /* Chrome 10-25, Safari 5.1-6 */
         background: linear-gradient(
-            45deg,
-            hsla(340, 100%, 55%, 1) 0%,
-            hsla(340, 100%, 55%, 0) 70%
-          ),
-          linear-gradient(
-            135deg,
-            hsla(225, 95%, 50%, 1) 10%,
-            hsla(225, 95%, 50%, 0) 80%
-          ),
-          linear-gradient(
-            225deg,
-            hsla(140, 90%, 50%, 1) 10%,
-            hsla(140, 90%, 50%, 0) 80%
-          ),
-          linear-gradient(
-            315deg,
-            hsla(35, 95%, 55%, 1) 100%,
-            hsla(35, 95%, 55%, 0) 70%
-          );
+          to bottom,
+          #96c93d,
+          #00b09b
+        ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       }
 
       h2 {
@@ -162,7 +152,7 @@
       }
 
       .cool > li > a {
-        color: yellow;
+        color: white;
         text-decoration: none;
         font-size: 20px;
         background: rgba(0, 0, 0, 0.2);
@@ -199,6 +189,7 @@
         display: none;
       }
 
+      /* this and the next rule are separated to make smoother transitions */
       .trigger-enter .dropdown {
         display: block;
       }
@@ -246,6 +237,7 @@
       .bio img {
         float: left;
         margin-right: 20px;
+        max-width: 100px;
       }
 
       .courses {
@@ -283,6 +275,50 @@
       }
     </style>
 
-    <script></script>
+    <script>
+      const triggers = document.querySelectorAll(".cool > li");
+      const background = document.querySelector(".dropdownBackground");
+      const nav = document.querySelector(".top");
+
+      function handleEnter() {
+        this.classList.add("trigger-enter");
+        setTimeout(
+          () =>
+            this.classList.contains("trigger-enter") &&
+            this.classList.add("trigger-enter-active"),
+          150
+        );
+        background.classList.add("open");
+
+        const dropdown = this.querySelector(".dropdown");
+        const dropdownCoords = dropdown.getBoundingClientRect();
+        const navCoords = nav.getBoundingClientRect();
+        const coords = {
+          height: dropdownCoords.height,
+          width: dropdownCoords.width,
+          top: dropdownCoords.top - navCoords.top,
+          left: dropdownCoords.left - navCoords.left,
+        };
+
+        background.style.setProperty("width", `${coords.width}px`);
+        background.style.setProperty("height", `${coords.height}px`);
+        background.style.setProperty(
+          "transform",
+          `translate(${coords.left}px, ${coords.top}px)`
+        );
+      }
+
+      function handleLeave() {
+        this.classList.remove("trigger-enter", "trigger-enter-active");
+        background.classList.remove("open");
+      }
+
+      triggers.forEach((trigger) =>
+        trigger.addEventListener("mouseenter", handleEnter)
+      );
+      triggers.forEach((trigger) =>
+        trigger.addEventListener("mouseleave", handleLeave)
+      );
+    </script>
   </body>
 </html>
