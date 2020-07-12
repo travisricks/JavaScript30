@@ -2,6 +2,7 @@ let countdown;
 const timerDisplay = document.querySelector(".display__time-left");
 const endTimeDisplay = document.querySelector(".display__end-time");
 const buttons = document.querySelectorAll("[data-time]");
+const soundEffect = document.querySelector("audio");
 
 function timer(seconds) {
   // clear any existing timers
@@ -25,7 +26,18 @@ function timer(seconds) {
       clearInterval(countdown);
       return;
     }
+
+    // keep going
     displayTimeLeft(secondsLeft);
+
+    // play sound at 0
+    if (secondsLeft === 0) {
+      soundEffect.loop = true;
+      soundEffect.play();
+      setTimeout(() => {
+        soundEffect.loop = false;
+      }, 500);
+    }
   }, 1000);
 }
 
